@@ -17,3 +17,8 @@ CREATE TABLE users(
 
 INSERT INTO users VALUES 
 ('Clark', 'Kent', 'super@man.com', '1990-09-09', 'male');
+
+INSERT INTO users VALUES 
+('Iron', 'Man', 'iron@man.cocm', '1960-06-09', 'male'),
+('Loki', 'Odyn', 'loki@man.cocm', '1940-06-05', 'male'),
+('Spyder', 'Man', 'spyderyea@man.cocm', '2001-01-05', 'male');
