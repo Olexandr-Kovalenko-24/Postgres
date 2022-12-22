@@ -26,6 +26,18 @@ INSERT INTO users VALUES
 ('Loki', 'Odyn', 'loki@man.cocm', '1940-06-05', 'male'),
 ('Spyder', 'Man', 'spyderyea@man.cocm', '2001-01-05', 'male');
 
+DROP TABLE messages;
 
+CREATE TABLE messages(
+    id serial NOT PRIMARY KEY,
+    body text NOT NULL CHECK (body != ''),
+    author varchar(256) NOT NULL,
+    created_at timestamp NOT NULL CHECK (created_at <= current_timestamp) DEFAULT current_timestamp,
+    is_read boolean NULL DEFAULT false
+);
 
+INSERT INTO messages (author, body) VALUES
+('test user', 'dsdfs'),
+('test user', 'dsdfs'),
+('test user2', 'dsdfsdfd');
 
