@@ -21,24 +21,26 @@ CREATE TABLE users(
 ALTER TABLE users 
 ADD COLUMN height numeric(3,2);
 
+ALTER TABLE users
+DROP CONSTRAINT "to_height_user";
 ALTER TABLE users 
-ADD CONSTRAINT "to_height_user" CHECK (height < 3.0);
+ADD CONSTRAINT "to_height_user" CHECK (height < 4.00);
 
 ALTER TABLE users
 DROP CONSTRAINT "to_height_user";
 
 ALTER TABLE users
-DROP CONSTRAINT "weight_not_0";
-
+DROP COLUMN weight;
 ALTER TABLE users
 ADD COLUMN weight numeric(5,2) CONSTRAINT "weight_not_0" CHECK (weight > 0);
+
 
 ALTER TABLE users
 ADD CONSTRAINT "not_before_1990" CHECK (birthday > '1900-01-01');
 
 
 INSERT INTO users (first_name, last_name, email, birthday, gender, height, weight) VALUES 
-('Clark', 'Kent', 'super@man.com', '1980-09-09', 'male', 3.84, 72.81);
+('Clark', 'Kent', 'supfdfer@marn.com', '1980-09-09', 'male', 4.84, 72.81);
 
 INSERT INTO users (first_name, last_name, email, birthday, gender) VALUES 
 ('Iron', 'Man', 'iron@man.cocm', '1960-06-09', 'male'),
@@ -59,4 +61,33 @@ INSERT INTO messages (author, body) VALUES
 ('test user', 'dsdfs'),
 ('test user', 'dsdfs'),
 ('test user2', 'dsdfsdfd');
+
+
+
+
+CREATE TABLE products(
+    id serial PRIMARY KEY,
+    name varchar(100) NOT NULL CHECK (name != ''),
+    category varchar(100),
+    price numeric(10,2) NOT NULL CHECK (price > 0),
+    quantity int CHECK (quantity > 0)
+);
+
+INSERT INTO products (name, price, quantity) VALUES
+('Samsung', 100, 5),
+('Iphone', 120, 9),
+('Nokia', 30, 15);
+
+DROP TABLE orders;
+CREATE TABLE orders(
+    id serial PRIMARY KEY,
+    created_at timestamp DEFAULT current_timestamp,
+    customer_id int REFERENCES users(id)
+);
+
+INSERT INTO orders (customer_id) VALUES
+(1), (1), (2), (1), (3);
+
+INSERT INTO orders (customer_id) VALUES
+(4);
 
