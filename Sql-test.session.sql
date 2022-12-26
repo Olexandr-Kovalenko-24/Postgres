@@ -1,3 +1,4 @@
+DROP TABLE books;
 CREATE TABLE books(
     name varchar(300),
     author varchar(300),
@@ -124,3 +125,26 @@ INSERT INTO orders_to_products(product_id, order_id, quantity) VALUES
 (1, 7, 1),
 (2, 8, 1),
 (3, 9, 1);
+
+
+
+
+CREATE TABLE content (
+    id serial PRIMARY KEY,
+    name varchar(256) NOT NULL CHECK (name != ''),
+    description text,
+    created_at timestamp NOT NULL DEFAULT current_timestamp
+);
+
+INSERT INTO content (name) VALUES
+('funny cats1'), ('funny cats2'), ('funny cats3');
+
+CREATE TABLE reactions (
+    user_id int REFERENCES users(id),
+    content_id int REFERENCES content(id),
+    reaction boolean,
+    PRIMARY KEY (user_id, content_id)
+);
+
+INSERT INTO reactions (content_id, user_id, reaction) VALUES
+(1, 1, true), (2, 2, false), (3, 3);
