@@ -199,3 +199,6 @@ WHERE weight = 60.00;
 
 SELECT * FROM users
 WHERE birthday > '1992-01-01';
+
+
+
