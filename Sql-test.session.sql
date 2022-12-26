@@ -148,3 +148,21 @@ CREATE TABLE reactions (
 
 INSERT INTO reactions (content_id, user_id, reaction) VALUES
 (1, 1, true), (2, 2, false), (3, 3);
+
+
+
+
+CREATE TABLE coaches(
+    id serial PRIMARY KEY,
+    name varchar(300)
+    -- team_id int REFERENCES teams(id)
+);
+
+ALTER TABLE coaches
+ADD COLUMN team_id int REFERENCES teams(id);
+
+CREATE TABLE teams(
+    id serial PRIMARY KEY,
+    name varchar(300),
+    coach_id int REFERENCES coaches(id)
+);
