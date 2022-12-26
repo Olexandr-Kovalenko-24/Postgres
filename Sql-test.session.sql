@@ -51,17 +51,21 @@ DROP TABLE messages;
 CREATE TABLE messages(
     id serial PRIMARY KEY,
     body text NOT NULL CHECK (body != ''),
-    author int REFERENCES users(id),
+    author_id int REFERENCES users(id),
     created_at timestamp NOT NULL CHECK (created_at <= current_timestamp) DEFAULT current_timestamp,
     is_read boolean NOT NULL DEFAULT false
 );
 
+ALTER TABLE messages
+ADD COLUMN chats_id int REFERENCES chats(id);
+
+
 DROP TABLE chats;
 CREATE TABLE chats(
     id serial PRIMARY KEY,
-    user_id int REFERENCES users(id),
-    message_id int REFERENCES messages(id),
-    chat_name varchar(128) NOT NULL CHECK (chat_name != '')
+    chat_name varchar(128) NOT NULL CHECK (chat_name != ''),
+    owner_id int REFERENCES users(id),
+    created_at timestamp NOT NULL DEFAULT current_timestamp
 );
 
 
@@ -73,6 +77,14 @@ CREATE TABLE chats_to_users(
 );
 
 
+INSERT INTO chats (chat_name, owner_id) VALUES
+('first chat', 1);
+
+INSERT INTO chats_to_users VALUES
+(1, 1), (2, 1), (3, 1), (5, 1);
+
+INSERT INTO messages (author_id, body, chats_id) VALUES
+(1, 'hello', 1), (2, 'hello, by', 1);
 
 
 CREATE TABLE products(
