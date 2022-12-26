@@ -161,8 +161,18 @@ CREATE TABLE coaches(
 ALTER TABLE coaches
 ADD COLUMN team_id int REFERENCES teams(id);
 
+
 CREATE TABLE teams(
     id serial PRIMARY KEY,
     name varchar(300),
     coach_id int REFERENCES coaches(id)
 );
+
+
+ALTER TABLE coaches
+DROP COLUMN team_id;
+
+DROP TABLE teams;
+
+DROP TABLE coaches;
+
