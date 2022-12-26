@@ -176,3 +176,13 @@ DROP TABLE teams;
 
 DROP TABLE coaches;
 
+
+
+UPDATE users
+SET first_name = 'James'
+WHERE id = 8;
+
+
+UPDATE users
+SET weight = 60.00
+WHERE birthday > '1990-01-01';
