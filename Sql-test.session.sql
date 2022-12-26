@@ -72,7 +72,7 @@ CREATE TABLE chats(
 
 DROP TABLE chats_to_users;
 CREATE TABLE chats_to_users(
-    user_id int REFERENCES users(id),
+    user_id int REFERENCES users(id) ON DELETE CASCADE,
     chats_id int REFERENCES chats(id),
     PRIMARY KEY (user_id, chats_id)
 );
@@ -186,3 +186,9 @@ WHERE id = 8;
 UPDATE users
 SET weight = 60.00
 WHERE birthday > '1990-01-01';
+
+
+DELETE FROM users
+WHERE id=5;
+---not possible
+
