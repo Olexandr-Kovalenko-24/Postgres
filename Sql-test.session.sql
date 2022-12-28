@@ -39,6 +39,18 @@ ADD COLUMN weight numeric(5,2) CONSTRAINT "weight_not_0" CHECK (weight > 0);
 ALTER TABLE users
 ADD CONSTRAINT "not_before_1990" CHECK (birthday > '1900-01-01');
 
+ALTER TABLE users
+ADD COLUMN is_subscribed boolean;
+
+ALTER TABLE users
+DROP CONSTRAINT "not_before_1990";
+
+DELETE FROM users
+WHERE id > 10;
+
+ALTER TABLE users
+DROP CONSTRAINT users_email_key;
+
 
 INSERT INTO users (first_name, last_name, email, birthday, gender, height, weight) VALUES 
 ('Clark', 'Kent', 'supfdfer@marn.com', '1980-09-09', 'male', 4.84, 72.81);
