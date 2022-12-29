@@ -113,6 +113,19 @@ INSERT INTO products (name, price, quantity) VALUES
 ('Iphone', 120, 9),
 ('Nokia', 30, 15);
 
+
+ALTER TABLE products
+ADD COLUMN model varchar(200);
+
+
+ALTER TABLE products
+RENAME COLUMN name TO brand;
+
+DELETE FROM orders_to_products;
+
+DELETE FROM products;
+
+
 DROP TABLE orders;
 CREATE TABLE orders(
     id serial PRIMARY KEY,
@@ -214,3 +227,6 @@ WHERE birthday > '1992-01-01';
 
 
 
+SELECT * FROM chats;
+
+INSERT INTO chats (name, owner_id) VALUES ('second', 1) RETURNING *;
