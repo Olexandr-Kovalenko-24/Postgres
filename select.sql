@@ -65,4 +65,18 @@ DELETE FROM users
 WHERE id = 2222
 RETURNING *;
 
+SELECT * FROM users
+WHERE birthday < '2004-01-01';
 
+SELECT first_name, extract("years" from age(birthday)) FROM users;
+
+SELECT * FROM users
+WHERE extract("years" from age(birthday)) > 25;
+
+
+SELECT email FROM users
+WHERE gender = 'male' AND extract("years" from age(birthday)) >= 18 AND extract("years" from age(birthday)) <= 60;
+
+
+SELECT email, birthday FROM users
+WHERE gender = 'male' AND (extract("years" from age(birthday)) BETWEEN 18 AND 60);
