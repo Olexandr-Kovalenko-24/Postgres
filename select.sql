@@ -111,3 +111,6 @@ last_name AS "Прізвище",
 email AS "Пошта",
 is_subscribed AS "Підписка"
 FROM users AS u;
+
+SELECT * FROM users AS u
+WHERE u.id = 2222;
