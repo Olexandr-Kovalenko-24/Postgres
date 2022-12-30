@@ -80,3 +80,23 @@ WHERE gender = 'male' AND extract("years" from age(birthday)) >= 18 AND extract(
 
 SELECT email, birthday FROM users
 WHERE gender = 'male' AND (extract("years" from age(birthday)) BETWEEN 18 AND 60);
+
+
+
+
+SELECT * FROM users
+WHERE extract("month" from birthday) = 10;
+
+
+SELECT email FROM users
+WHERE (extract("day" from birthday) = 1) AND (extract("month" from birthday) = 11);
+
+
+UPDATE users
+SET height = 2.00
+WHERE extract("years" from age(birthday)) >= 60 RETURNING *;
+
+
+UPDATE users
+SET weight = 80
+WHERE gender = 'male' AND (extract("years" from age(birthday)) BETWEEN 30 AND 50) RETURNING *;
