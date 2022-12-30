@@ -110,4 +110,4 @@ first_name AS "ім'я",
 last_name AS "Прізвище",
 email AS "Пошта",
 is_subscribed AS "Підписка"
-FROM users;
+FROM users AS u;
