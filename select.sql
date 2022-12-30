@@ -100,3 +100,14 @@ WHERE extract("years" from age(birthday)) >= 60 RETURNING *;
 UPDATE users
 SET weight = 80
 WHERE gender = 'male' AND (extract("years" from age(birthday)) BETWEEN 30 AND 50) RETURNING *;
+
+
+
+SELECT * FROM users;
+
+SELECT id AS "Порядковий номер",
+first_name AS "ім'я",
+last_name AS "Прізвище",
+email AS "Пошта",
+is_subscribed AS "Підписка"
+FROM users;
