@@ -241,3 +241,50 @@ INSERT INTO workers (name, birthday, salary) VALUES
 UPDATE workers
 SET salary = 1200, name = 'Олег'
 WHERE name = 'Женя';
+
+
+
+
+SELECT max(height) FROM users;
+
+SELECT avg(height) FROM users;
+
+SELECT count(*) FROM users
+WHERE gender = 'female';
+
+SELECT avg(weight) FROM users
+WHERE gender = 'male';
+
+
+SELECT avg(weight), gender FROM users
+GROUP BY gender;
+
+
+SELECT avg(weight) FROM users
+WHERE birthday > '2000-01-01';
+
+
+SELECT avg(weight), gender FROM users
+WHERE extract("year" from age(birthday)) > 25
+GROUP BY gender;
+
+
+SELECT avg(height) FROM users;
+
+SELECT min(height), max(height), gender FROM users
+GROUP BY gender;
+
+SELECT count(*) FROM users
+WHERE birthday > '1999-12-31';
+
+SELECT count(*) FROM users
+WHERE first_name = 'John';
+
+SELECT count(*) FROM users
+WHERE extract("year" from age(birthday)) BETWEEN 20 AND 30;
+
+SELECT count(*) FROM users
+WHERE height > 1.5;
+
+SELECT count(*) FROM users
+WHERE first_name ILIKE 'John';
