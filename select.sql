@@ -288,3 +288,22 @@ WHERE height > 1.5;
 
 SELECT count(*) FROM users
 WHERE first_name ILIKE 'John';
+
+
+
+
+SELECT count(*), customer_id FROM orders 
+GROUP BY customer_id;
+
+
+
+SELECT avg(price), brand FROM products
+GROUP BY brand;
+
+
+SELECT sum(quantity), brand FROM products
+GROUP BY brand;
+
+
+SELECT sum(quantity) FROM products;
+SELECT sum(quantity) FROM orders_to_products;
