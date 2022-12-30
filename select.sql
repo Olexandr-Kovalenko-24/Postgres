@@ -146,3 +146,98 @@ SELECT * FROM (
 ) AS fn
 WHERE char_length(fn.full_name) > 10;
 
+
+
+
+
+
+
+DROP TABLE workers;
+CREATE TABLE workers(
+    id serial PRIMARY KEY,
+    name varchar(256) NOT NULL CHECK (name != ''),
+    salary numeric(7,2) NOT NULL,
+    birthday date CHECK (birthday < current_date)
+);
+
+
+INSERT INTO workers (name, birthday, salary) VALUES
+('Олег', '1990-01-01', 300);
+
+INSERT INTO workers (name, salary) VALUES
+('Ярослава', 1200);
+
+INSERT INTO workers (name, birthday, salary) VALUES
+('Саша', '1985-05-03', 85),
+('Маша', '1995-11-23', 85);
+
+UPDATE workers
+SET salary = 500
+WHERE name = 'Олег';
+
+UPDATE workers
+SET salary = 900
+WHERE name = 'Маша';
+
+UPDATE workers
+SET salary = 1000
+WHERE name = 'Саша';
+
+UPDATE workers
+SET birthday = '1987-09-09'
+WHERE id = 4;
+
+UPDATE workers
+SET salary = 700
+WHERE salary > 500;
+
+UPDATE workers
+SET birthday = '1999-03-05'
+WHERE id BETWEEN 2 AND 5;
+
+UPDATE workers
+SET name = 'Женя'
+WHERE name = 'Саша';
+
+UPDATE workers
+SET salary = 900
+WHERE name = 'Женя';
+
+SELECT * FROM workers
+WHERE salary > 400;
+
+SELECT * FROM workers
+WHERE id > 4;
+
+SELECT salary, extract("years" from age(birthday)) FROM workers
+WHERE name = 'Женя';
+
+SELECT * FROM workers
+WHERE name = 'Петя';
+
+SELECT * FROM workers
+WHERE (extract("years" from age(birthday))=27) OR salary > 800;
+
+SELECT * FROM workers
+WHERE (extract("years" from age(birthday)) BETWEEN 25 AND 28);
+
+SELECT * FROM workers
+WHERE (extract("month" from birthday) = 9);
+
+DELETE FROM workers
+WHERE id = 4;
+
+DELETE FROM workers
+WHERE name = 'Олег';
+
+DELETE FROM workers
+WHERE extract("years" from age(birthday))>30;
+
+
+
+INSERT INTO workers (name, birthday, salary) VALUES
+('Олег', '1990-01-01', 300);
+
+UPDATE workers
+SET salary = 1200, name = 'Олег'
+WHERE name = 'Женя';
