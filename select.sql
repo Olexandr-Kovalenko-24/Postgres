@@ -390,3 +390,113 @@ HAVING sum(quantity) >= 70000;
 
 
 
+
+CREATE TABLE a(
+    v char(3),
+    t int
+);
+
+CREATE TABLE b(
+    v char(3)  
+);
+
+INSERT INTO a VALUES
+('XXX', 1), ('XXY', 1), ('XXZ', 1),
+('XYX', 2), ('XYY', 2), ('XYZ', 2),
+('YXX', 3), ('YXY', 3), ('YXZ', 3);
+
+INSERT INTO b VALUES
+('ZXX'), ('XXX'), ('ZXZ'), ('YXZ'), ('YXY');
+
+
+SELECT * FROM a, b;
+
+SELECT v FROM a UNION
+SELECT * FROM b;
+
+
+SELECT v FROM a 
+INTERSECT
+SELECT * FROM b;
+
+
+SELECT v FROM a
+EXCEPT
+SELECT * FROM b;
+
+
+
+INSERT INTO users (
+    first_name,
+    last_name,
+    email,
+    birthday,
+    gender
+  )
+VALUES (
+    'Tester1',
+    'Tester1',
+    'test@mail.com',
+    '1989-02-26',
+    'male'
+  ),
+  (
+    'Tester2',
+    'Tester2',
+    'test2@mail.com',
+    '1989-02-23',
+    'male'
+  ),
+  (
+    'Tester3',
+    'Tester3',
+    'test3@mail.com',
+    '1989-02-27',
+    'male'
+  );
+
+
+SELECT id FROM users;
+
+SELECT id FROM users
+INTERSECT 
+SELECT customer_id FROM orders;
+
+
+SELECT id FROM users
+EXCEPT 
+SELECT customer_id FROM orders;
+
+
+SELECT email FROM users
+WHERE id IN (SELECT id FROM users
+                EXCEPT 
+                SELECT customer_id FROM orders);
+
+
+
+SELECT A.v as 'id',
+A.t as 'price',
+B.v as 'Phone_id' 
+FROM a,b
+WHERE a.v = b.v;
+
+
+SELECT *
+FROM a JOIN b ON A.v = B.v;
+
+
+SELECT u.*, o.id AS order_id
+FROM users AS u 
+JOIN orders AS o
+ON o.customer_id = u.id
+WHERE u.id = 2555;
+
+
+SELECT p.model
+FROM products AS p
+JOIN orders_to_products AS otp
+ON p.id = otp.product_id
+WHERE otp.order_id = 7;
+
+
