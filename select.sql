@@ -307,3 +307,46 @@ GROUP BY brand;
 
 SELECT sum(quantity) FROM products;
 SELECT sum(quantity) FROM orders_to_products;
+
+
+
+
+
+
+
+-- SELECT min(quantity), brand, model 
+-- FROM products
+-- GROUP BY brand, model;
+
+
+SELECT * FROM users
+ORDER BY id ASC;
+
+SELECT * FROM users
+ORDER BY id DESC;
+
+SELECT * FROM users
+ORDER BY first_name ASC;
+
+
+SELECT * FROM users
+ORDER BY height, birthday;
+
+
+SELECT * FROM products
+ORDER BY quantity;
+
+
+SELECT * FROM products
+ORDER BY price DESC
+LIMIT 5;
+
+
+SELECT *,extract("years" from age(birthday)) FROM users
+ORDER BY extract("years" from age(birthday)), first_name DESC;
+
+
+SELECT * FROM products
+ORDER BY price;
+
+
