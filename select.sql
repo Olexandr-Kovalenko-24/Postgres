@@ -530,3 +530,49 @@ FROM users AS u
 FULL JOIN orders AS o
 ON u.id = o.customer_id;
 
+
+
+
+SELECT otp.order_id, p.model
+FROM orders_to_products AS otp
+JOIN products AS p
+ON otp.product_id = p.id
+WHERE brand = 'Samsung';
+
+
+SELECT p.model, count(*) AS amount
+FROM orders_to_products AS otp
+JOIN products AS p
+ON otp.product_id = p.id
+WHERE brand = 'Samsung'
+GROUP BY p.model;
+
+
+33 model 62
+
+
+SELECT email
+FROM users AS u
+JOIN orders AS o 
+ON u.id = o.customer_id
+JOIN orders_to_products AS otp
+ON o.id = otp.product_id
+JOIN products AS p
+ON otp.product_id = p.id
+WHERE p.model = '33 model 62';
+
+
+SELECT * 
+FROM products AS p 
+LEFT JOIN orders_to_products AS otp 
+ON p.id = otp.product_id
+WHERE otp.order_id IS NULL;
+
+
+
+SELECT otp.order_id, sum(p.price * otp.quantity) AS order_price
+FROM products AS p 
+JOIN orders_to_products AS otp 
+ON p.id = otp.product_id
+GROUP BY otp.order_id
+ORDER BY otp.order_id;
