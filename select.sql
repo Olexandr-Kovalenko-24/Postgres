@@ -500,3 +500,33 @@ ON p.id = otp.product_id
 WHERE otp.order_id = 7;
 
 
+SELECT u.id, email, o.id AS order_id
+FROM users AS u
+JOIN orders AS o
+ON u.id = o.customer_id;
+
+
+SELECT u.id, email, o.id AS order_id
+FROM users AS u
+LEFT JOIN orders AS o
+ON u.id = o.customer_id;
+
+
+SELECT u.id, email, o.id AS order_id
+FROM users AS u
+RIGHT JOIN orders AS o
+ON u.id = o.customer_id;
+
+
+SELECT u.id, email, o.id AS order_id
+FROM users AS u
+LEFT JOIN orders AS o
+ON u.id = o.customer_id
+WHERE o.id IS NULL;
+
+
+SELECT u.id, email, o.id AS order_id
+FROM users AS u
+FULL JOIN orders AS o
+ON u.id = o.customer_id;
+
