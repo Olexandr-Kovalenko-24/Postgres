@@ -346,7 +346,47 @@ SELECT *,extract("years" from age(birthday)) FROM users
 ORDER BY extract("years" from age(birthday)), first_name DESC;
 
 
+SELECT extract("years" from age(birthday)), count(*) 
+FROM users
+GROUP BY extract("years" from age(birthday))
+ORDER BY extract("years" from age(birthday));
+
+
 SELECT * FROM products
 ORDER BY price;
+
+
+SELECT * FROM (
+    SELECT *, extract("years" from age(birthday)) AS age
+    FROM users) AS u_w_age
+ORDER BY u_w_age;
+
+
+SELECT count(*), age FROM (
+    SELECT *, extract("years" from age(birthday)) AS age
+    FROM users) AS u_w_age
+GROUP BY age
+ORDER BY age;
+
+
+SELECT count(*), age FROM (
+    SELECT *, extract("years" from age(birthday)) AS age
+    FROM users) AS u_w_age
+GROUP BY age
+HAVING count(*) >= 5
+ORDER BY age;
+
+
+SELECT count(*), customer_id
+FROM orders
+GROUP BY customer_id
+HAVING count(*) >= 3;
+
+
+SELECT sum(quantity), brand
+FROM products
+GROUP BY brand
+HAVING sum(quantity) >= 70000;
+
 
 
