@@ -576,3 +576,52 @@ JOIN orders_to_products AS otp
 ON p.id = otp.product_id
 GROUP BY otp.order_id
 ORDER BY otp.order_id;
+
+
+
+
+
+
+SELECT otp.order_id
+FROM orders_to_products AS otp
+JOIN products AS p
+ON p.id = otp.product_id
+WHERE p.brand = 'Samsung'
+GROUP BY otp.order_id
+ORDER BY otp.order_id;
+
+
+
+SELECT u.email, count(*) AS number_of_orders
+FROM users AS u 
+JOIN orders AS o 
+ON u.id = o.customer_id
+GROUP BY u.id;
+
+
+
+SELECT o.id, count(otp.quantity) AS number_of_products
+FROM orders_to_products AS otp
+JOIN orders AS o 
+ON o.id = otp.order_id
+GROUP BY o.id
+ORDER BY o.id;
+
+
+SELECT otp.order_id, count(*)
+FROM orders_to_products AS otp
+GROUP BY otp.order_id
+ORDER BY otp.order_id;
+
+
+
+SELECT p.brand, p.model, sum(otp.quantity)
+FROM products AS p 
+JOIN orders_to_products AS otp
+ON p.id = otp.product_id
+GROUP BY p.model, p.brand
+ORDER BY sum(otp.quantity) DESC
+LIMIT 1;
+
+
+
