@@ -625,3 +625,54 @@ LIMIT 1;
 
 
 
+SELECT avg(o_w_sum.order_sum)
+FROM (
+  SELECT otp.order_id, sum(otp.quantity * p.price) AS order_sum
+  FROM orders_to_products AS otp
+  JOIN products AS p
+  ON p.id = otp.product_id
+  GROUP BY otp.order_id
+  ) AS o_w_sum;
+
+
+
+SELECT u.first_name, u.last_name, count(*)
+FROM users AS u 
+JOIN orders AS o
+ON u.id = o.customer_id
+GROUP BY u.first_name, u.last_name
+ORDER BY count(*) DESC
+LIMIT 1;
+
+
+SELECT u.*, sum(otp.quantity * p.price)
+FROM users AS u
+JOIN orders AS o
+ON u.id = o.customer_id
+JOIN orders_to_products AS otp
+ON o.id = otp.order_id
+JOIN products AS p
+ON otp.product_id = p.id
+GROUP BY u.id;
+
+
+SELECT u.*, sum(otp.quantity * p.price) AS total_sum
+FROM users AS u
+JOIN orders AS o
+ON u.id = o.customer_id
+JOIN orders_to_products AS otp
+ON o.id = otp.order_id
+JOIN products AS p
+ON otp.product_id = p.id
+GROUP BY u.id
+ORDER BY total_sum DESC
+LIMIT 1;
+
+
+SELECT p.brand, sum(otp.quantity)
+FROM products AS p 
+JOIN orders_to_products AS otp
+ON p.id = otp.product_id
+GROUP BY p.brand
+ORDER BY sum(otp.quantity) DESC
+LIMIT 1;
