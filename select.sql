@@ -676,3 +676,86 @@ ON p.id = otp.product_id
 GROUP BY p.brand
 ORDER BY sum(otp.quantity) DESC
 LIMIT 1;
+
+
+
+
+SELECT * FROM (
+  SELECT otp.order_id, sum(otp.quantity * p.price) AS order_sum
+  FROM orders_to_products AS otp
+  JOIN products AS p
+  ON p.id = otp.product_id
+  GROUP BY otp.order_id
+  ) AS order_with_costs
+  WHERE order_with_costs.order_sum > (SELECT avg(o_w_sum.order_sum)
+    FROM (
+      SELECT otp.order_id, sum(otp.quantity * p.price) AS order_sum
+      FROM orders_to_products AS otp
+      JOIN products AS p
+      ON p.id = otp.product_id
+      GROUP BY otp.order_id
+      ) AS o_w_sum);
+
+-- =
+
+WITH orders_with_costs AS (
+    SELECT otp.order_id, sum(p.price*otp.quantity) AS total_amount
+    FROM orders_to_products AS otp
+    JOIN products AS p
+    ON p.id = otp.product_id
+    GROUP BY otp.order_id
+    )
+SELECT owc.*
+FROM orders_with_costs AS owc
+WHERE owc.total_amount > (SELECT avg(o_w_sum.order_sum)
+       FROM (
+            SELECT otp.order_id, sum(p.price*otp.quantity) AS order_sum
+            FROM orders_to_products AS otp
+            JOIN products AS p
+            ON p.id = otp.product_id
+            GROUP BY otp.order_id
+              ) AS o_w_sum);
+
+
+
+
+SELECT * FROM (
+  SELECT u.*, count(*) AS numder_orders
+  FROM users AS u 
+  JOIN orders AS o
+  ON u.id = o.customer_id
+  GROUP BY u.id
+  ORDER BY count(*) DESC) AS n_o_ord
+  WHERE n_o_ord.numder_orders > (SELECT avg(u_w_orders.number_orders)
+    FROM (
+      SELECT u.*, count(*) AS number_orders
+      FROM users AS u 
+      JOIN orders AS o
+      ON u.id = o.customer_id
+      GROUP BY u.id
+      ORDER BY count(*) DESC) AS u_w_orders);
+
+-- =
+
+WITH user_with_orders AS (
+  SELECT u.*, count(*) AS numders_orders
+  FROM users AS u 
+  JOIN orders AS o
+  ON u.id = o.customer_id
+  GROUP BY u.id
+  ORDER BY count(*) DESC
+)
+SELECT uwo.*
+FROM user_with_orders AS uwo
+WHERE uwo.numders_orders > (SELECT avg(u_w_orders.number_orders)
+    FROM (
+      SELECT u.*, count(*) AS number_orders
+      FROM users AS u 
+      JOIN orders AS o
+      ON u.id = o.customer_id
+      GROUP BY u.id
+      ORDER BY count(*) DESC) AS u_w_orders);
+
+
+
+
