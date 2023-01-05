@@ -556,10 +556,11 @@ FROM users AS u
 JOIN orders AS o 
 ON u.id = o.customer_id
 JOIN orders_to_products AS otp
-ON o.id = otp.product_id
+ON o.id = otp.order_id
 JOIN products AS p
 ON otp.product_id = p.id
-WHERE p.model = '33 model 62';
+WHERE p.model = '33 model 62'
+GROUP BY email;
 
 
 SELECT * 
@@ -757,5 +758,14 @@ WHERE uwo.numders_orders > (SELECT avg(u_w_orders.number_orders)
       ORDER BY count(*) DESC) AS u_w_orders);
 
 
+
+SELECT u.*, count(otp.product_id)
+FROM users AS u 
+JOIN orders AS o 
+ON u.id = o.customer_id
+JOIN orders_to_products AS otp
+ON o.id = otp.order_id
+GROUP BY u.id
+ORDER BY u.id;
 
 
