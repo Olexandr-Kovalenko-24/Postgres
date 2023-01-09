@@ -230,3 +230,96 @@ WHERE birthday > '1992-01-01';
 SELECT * FROM chats;
 
 INSERT INTO chats (name, owner_id) VALUES ('second', 1) RETURNING *;
+
+
+
+
+
+
+
+SELECT first_name AS "Ім'я",
+    last_name AS "Прізвище"
+FROM users;
+
+
+SELECT *, (
+    CASE
+        WHEN is_subscribed = TRUE
+            THEN 'Підписаний'
+        WHEN is_subscribed = FALSE
+            THEN 'Не підписаний'
+        ELSE 'Не відомо'
+    END
+)
+FROM users;
+
+
+
+ALTER TABLE orders
+ADD COLUMN status boolean;
+
+UPDATE orders
+SET status = true
+WHERE id % 3 = 0;
+
+UPDATE orders
+SET status = false;
+
+UPDATE orders
+SET status = NULL
+WHERE id BETWEEN 10 AND 15;
+
+SELECT *, (
+    CASE
+        WHEN status = TRUE
+            THEN 'done'
+        WHEN status = FALSE
+            THEN 'processing'
+        ELSE 'new'
+    END
+)
+FROM orders;
+
+
+
+SELECT *, (
+    CASE extract("month" from birthday)
+        WHEN 1 THEN 'winter'
+        WHEN 2 THEN 'winter'
+        WHEN 3 THEN 'spring'
+        WHEN 4 THEN 'spring'
+        WHEN 5 THEN 'spring'
+        WHEN 6 THEN 'summer'
+        WHEN 7 THEN 'summer'
+        WHEN 8 THEN 'summer'
+        WHEN 9 THEN 'fall'
+        WHEN 10 THEN 'fall'
+        WHEN 11 THEN 'fall'
+        WHEN 12 THEN 'winter'
+    ELSE 'unknown'
+END
+) AS "birth_season"
+FROM users;
+
+
+
+SELECT *, (
+    CASE extract("years" from age(birthday)) > 18
+        WHEN false THEN 'Не повнолітній'
+        WHEN true THEN 'Повнолітній'
+    ELSE 'unknown'
+END
+) AS "Повнолітність"
+FROM users;
+
+
+SELECT *, (
+    CASE 
+        WHEN extract("years" from age(birthday)) > 18
+        THEN 'Повнолітній'
+    ELSE 'Не повнолітній'
+    END
+) AS "Повнолітність"
+FROM users;
+
+
