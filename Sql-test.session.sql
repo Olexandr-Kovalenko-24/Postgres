@@ -426,3 +426,17 @@ FROM users AS u;
 
 
 
+----ANY/SOME----
+---(IN)---
+
+--Якщо хоч для якогось значення умова = true -  то повернеться true
+
+--------------ALL--------
+--Якщо для всіх рядків значення = true
+
+SELECT *
+FROM products AS p
+WHERE p.id != ALL (
+    SELECT product_id 
+    FROM orders_to_products
+);
