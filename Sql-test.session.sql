@@ -366,3 +366,15 @@ ORDER BY count(o.id);
 
 
 
+SELECT id, brand, price, COALESCE(category, 'smartphone') AS category
+FROM products;
+
+
+SELECT *, LEAST(price, 1000) AS sale_price
+FROM products;
+
+
+SELECT *, GREATEST(price, 1000) AS new_price
+FROM products;
+
+
