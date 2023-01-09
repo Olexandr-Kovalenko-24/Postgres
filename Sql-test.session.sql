@@ -400,3 +400,29 @@ WHERE p.id NOT IN (
     SELECT otp.product_id
     FROM orders_to_products AS otp
 );
+
+
+
+SELECT *
+FROM users
+WHERE id = 190;
+
+SELECT EXISTS
+    (SELECT *
+    FROM users
+    WHERE id = 190);
+
+
+SELECT EXISTS
+    (SELECT o.customer_id
+    FROM orders AS o
+    WHERE id = 2300);
+
+
+SELECT u.id, u.email, (EXISTS
+                        (SELECT o.customer_id
+                        FROM orders AS o))
+FROM users AS u;
+
+
+
