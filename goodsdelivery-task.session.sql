@@ -17,20 +17,21 @@ CREATE TABLE orders (
     id serial PRIMARY KEY,
     products_id int REFERENCES products(id),
     customer_id int REFERENCES customers(id),
-    product_quantity int CHECK (product_quantity > 0)
-);
-
-
-CREATE TABLE contracts (
-    id serial PRIMARY KEY,
+    quantity_plan int CHECK (product_quantity > 0),
     signed_at timestamp DEFAULT current_timestamp,
-    order_id int REFERENCES orders(id)
+    contract_number serial PRIMARY KEY,
 );
 
 
 CREATE TABLE shipments (
     id serial PRIMARY KEY,
     shipped_at timestamp DEFAULT current_timestamp
-    contract_id int REFERENCES contracts(id),
-    shipped_quantity int CHECK (shipped_quantity > 0)
+    order_id int REFERENCES orders(id)
+);
+
+CREATE TABLE products_to shipments (
+    product_id int REFERENCES products(id),
+    shipment_id int REFERENCES shipments(id),
+    shipped_quantity int CHECK (shipped_quantity > 0),
+    PRIMARY KEY (product_id, shipment_id)
 );
