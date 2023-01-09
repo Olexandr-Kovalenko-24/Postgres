@@ -323,3 +323,43 @@ SELECT *, (
 FROM users;
 
 
+SELECT *, (
+    CASE
+        WHEN brand = 'iPhone'
+        THEN 'Apple'
+    ELSE 'Other'
+    END
+) AS "manufacturer"
+FROM products;
+
+
+SELECT *, (
+    CASE 
+        WHEN price > 9000
+        THEN 'flagman'
+        WHEN price < 1000
+        THEN 'cheap'
+        WHEN price BETWEEN 1000 AND 9000
+        THEN 'middle'
+    ELSE 'haven`t price'
+    END
+) AS "price_category"
+FROM products;
+
+
+SELECT u.*, count(*), (
+    CASE 
+        WHEN count(*) > 5
+        THEN 'parmanent'
+        WHEN count(*) = 0
+        THEN 'new client'
+        WHEN count(*) BETWEEN 1 AND 5
+        THEN 'active'
+    ELSE 'haven`t price'
+    END
+) AS "user_status"
+FROM users AS u
+LEFT JOIN orders AS o
+ON u.id = o.customer_id
+GROUP BY u.id
+ORDER BY count(*);
