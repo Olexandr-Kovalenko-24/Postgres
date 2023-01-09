@@ -347,13 +347,13 @@ SELECT *, (
 FROM products;
 
 
-SELECT u.*, count(*), (
+SELECT u.*, count(o.id), (
     CASE 
-        WHEN count(*) > 5
+        WHEN count(o.id) > 5
         THEN 'parmanent'
-        WHEN count(*) = 0
+        WHEN count(o.id) = 0
         THEN 'new client'
-        WHEN count(*) BETWEEN 1 AND 5
+        WHEN count(o.id) BETWEEN 1 AND 5
         THEN 'active'
     ELSE 'haven`t price'
     END
@@ -362,4 +362,7 @@ FROM users AS u
 LEFT JOIN orders AS o
 ON u.id = o.customer_id
 GROUP BY u.id
-ORDER BY count(*);
+ORDER BY count(o.id);
+
+
+
