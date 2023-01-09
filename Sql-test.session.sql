@@ -378,3 +378,25 @@ SELECT *, GREATEST(price, 1000) AS new_price
 FROM products;
 
 
+
+SELECT * 
+FROM users AS u
+WHERE u.id NOT IN (
+    SELECT o.customer_id
+    FROM orders AS o
+);
+
+SELECT * 
+FROM users AS u
+WHERE u.id IN (
+    SELECT o.customer_id
+    FROM orders AS o
+);
+
+
+SELECT * 
+FROM products AS p
+WHERE p.id NOT IN (
+    SELECT otp.product_id
+    FROM orders_to_products AS otp
+);
