@@ -440,3 +440,143 @@ WHERE p.id != ALL (
     SELECT product_id 
     FROM orders_to_products
 );
+
+
+
+
+
+SELECT id, first_name, last_name
+FROM users;
+
+SELECT u.*, count(*) AS order_count
+FROM users As u 
+JOIN orders As o
+ON u.id = o.customer_id
+GROUP BY u.id, u.email;
+
+
+CREATE VIEW users_with_order_count AS (SELECT u.*, count(*) AS order_count
+FROM users As u 
+JOIN orders As o
+ON u.id = o.customer_id
+GROUP BY u.id, u.email);
+
+
+SELECT * 
+FROM users_with_order_count
+WHERE id = 2222;
+
+
+SELECT * 
+FROM users_with_order_count
+WHERE order_count > 5;
+
+
+-- SELECT * FROM (
+--   SELECT otp.order_id, sum(otp.quantity * p.price) AS order_sum
+--   FROM orders_to_products AS otp
+--   JOIN products AS p
+--   ON p.id = otp.product_id
+--   GROUP BY otp.order_id
+--   ) AS order_with_costs
+--   WHERE order_with_costs.order_sum > (SELECT avg(o_w_sum.order_sum)
+--     FROM (
+--       SELECT otp.order_id, sum(otp.quantity * p.price) AS order_sum
+--       FROM orders_to_products AS otp
+--       JOIN products AS p
+--       ON p.id = otp.product_id
+--       GROUP BY otp.order_id
+--       ) AS o_w_sum);
+
+
+
+CREATE VIEW "order_with_costs" AS 
+    (SELECT otp.order_id, sum(otp.quantity * p.price) AS order_sum
+    FROM orders_to_products AS otp
+    JOIN products AS p
+    ON p.id = otp.product_id
+    GROUP BY otp.order_id);
+
+
+SELECT owc.*
+FROM order_with_costs AS owc
+WHERE owc.order_sum > (SELECT avg(order_sum)
+                        FROM order_with_costs);
+
+
+
+CREATE VIEW "sum_with_model_count" AS
+(SELECT o.*, sum(otp.quantity * p.price) AS order_sum, count(otp.product_id) AS model_quantity
+    FROM orders AS o
+    JOIN orders_to_products AS otp
+    ON otp.order_id = o.id
+    JOIN products AS p
+    ON p.id = otp.product_id
+    GROUP BY o.id);
+
+
+SELECT sum_with_model_count.customer_id, sum(order_sum) AS total_costs
+FROM sum_with_model_count
+GROUP BY sum_with_model_count.customer_id;
+
+-- =
+
+SELECT u.*, sum(order_sum)
+FROM users AS u
+JOIN sum_with_model_count AS swmc 
+ON u.id = swmc.customer_id
+GROUP BY u.id;
+
+
+CREATE VIEW "full_name_users_with_total_coasts" AS
+(SELECT u.id, concat(first_name, ' ', last_name) AS full_name, u.email, sum(order_sum) AS total_coast
+FROM users AS u
+JOIN sum_with_model_count AS swmc 
+ON u.id = swmc.customer_id
+GROUP BY u.id);
+
+
+
+
+SELECT *
+FROM full_name_users_with_total_coasts
+ORDER BY full_name_users_with_total_coasts.total_coast DESC
+LIMIT 10;
+
+
+-- Серед однонго замовлення
+SELECT *
+FROM users AS u
+JOIN sum_with_model_count AS swmc
+ON u.id = swmc.customer_id
+ORDER BY swmc.model_quantity DESC
+LIMIT 10;
+
+-- Серед всіх замовлень
+SELECT u.id, u.email, sum(swmc.model_quantity) AS model_count
+FROM users AS u
+JOIN sum_with_model_count AS swmc
+ON u.id = swmc.customer_id
+GROUP BY u.id, u.email
+ORDER BY model_count DESC
+LIMIT 10;
+
+SELECT swmc.customer_id, sum(model_quantity)
+FROM sum_with_model_count AS swmc
+GROUP BY swmc.customer_id;
+
+
+
+SELECT *
+FROM users_with_order_count
+WHERE users_with_order_count.order_count > (SELECT avg(users_with_order_count.order_count)
+                                            FROM users_with_order_count);
+
+
+
+SELECT *
+FROM sum_with_model_count
+WHERE sum_with_model_count.model_quantity > (SELECT avg(sum_with_model_count.model_quantity)
+                                                FROM sum_with_model_count);
+
+
